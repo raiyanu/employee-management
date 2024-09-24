@@ -10,6 +10,7 @@ const employeeSchema = new mongoose.Schema({
 		data: Buffer,
 		contentType: String,
 	},
+	f_Image_meta: Object,
 	f_Name: {
 		type: String,
 		required: true,
@@ -31,16 +32,28 @@ const employeeSchema = new mongoose.Schema({
 	f_Gender: {
 		type: String,
 		required: true,
-		enum: ["Male", "Female"], // Assuming fixed gender options
+		enum: ["male", "female"],
 	},
 	f_Course: {
 		type: String,
-		required: false, // Optional field
+		required: false,
 	},
 	f_Createdate: {
 		type: Date,
 		default: Date.now, // Automatically sets the creation date to the current time
 	},
+});
+
+employeeSchema.pre("validate", async function (next) {
+	if (!this.f_Id) {
+		const latestBlog = await this.constructor.findOne(
+			{},
+			{},
+			{ sort: { f_Id: -1 }, limit: 1 }
+		);
+		this.f_Id = latestBlog ? latestBlog.f_Id + 1 : 1;
+	}
+	next();
 });
 
 // Create the model

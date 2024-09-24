@@ -17,4 +17,5 @@ router
 		res.send("Employee route for updating");
 	});
 router.route("/page/:pageNo").get(getEmployees);
+
 export default router;
