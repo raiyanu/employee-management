@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import AppHeader from "../components/AppHeader";
+import AppHeader from "../../components/AppHeader";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 

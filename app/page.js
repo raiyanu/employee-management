@@ -1,9 +1,10 @@
+"use client";
 import Link from "next/link";
-import AppHeader from "./AppHeader";
+import AppHeader from "./components/AppHeader";
 
 export default function Home() {
 	const logged = true;
-	return <div className="flex h-screen">{logged ? <Admin /> : <Login />}</div>;
+	return <div>{logged ? <Admin /> : <Login />}</div>;
 }
 
 export function Login() {
@@ -42,9 +43,9 @@ export function Login() {
 
 export function Admin() {
 	return (
-		<div>
+		<>
 			<AppHeader />
 			<h1>Welcome Admin Panel</h1>
-		</div>
+		</>
 	);
 }
