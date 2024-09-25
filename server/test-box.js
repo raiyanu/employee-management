@@ -1,24 +1,43 @@
 import connectDB from "./config/db.js";
 import Employee from "./models/employeeModel.js";
+import fs from "fs";
+
+let malepic = 1,
+	femalepic = 1;
 
 await connectDB();
 
 let emp = await Employee.find();
 
-let female = 0,
-	male = 0;
-
 for (let i = 0; i < emp.length; i++) {
 	if (emp[i].f_Gender == "female") {
-		female++;
+		if (femalepic == 4) {
+			femalepic = 1;
+		}
+		console.log("femalepic:", femalepic);
+		let updatedFemale = await Employee.findByIdAndUpdate(emp[i]._id, {
+			f_Image: {
+				data: await fs.readFileSync(`./img/w${femalepic++}.jpg`),
+				contentType: "image/jpeg",
+			},
+		});
+		// console.log("updatedFemale:", updatedFemale);
 	} else {
-		male++;
+		if (malepic == 4) {
+			malepic = 1;
+		}
+		console.log("malepic:", malepic);
+		let updatedMale = await Employee.findByIdAndUpdate(emp[i]._id, {
+			f_Image: {
+				data: await fs.readFileSync(`./img/m${malepic++}.jpg`),
+				contentType: "image/jpeg",
+			},
+		});
+		// console.log("updatedMale:", updatedMale);
 	}
 }
 
-console.log("emp:", emp);
-console.log("female:", female);
-console.log("male:", male);
+// console.log("emp:", emp);
 
 // const blog = new Blog({
 // 	title: "bad title 1.1",
