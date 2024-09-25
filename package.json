@@ -1,23 +1,26 @@
 {
-  "name": "employee-management",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "daisyui": "^4.12.10",
-    "next": "14.2.13",
-    "react": "^18",
-    "react-dom": "^18"
-  },
-  "devDependencies": {
-    "eslint": "^8",
-    "eslint-config-next": "14.2.13",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1"
-  }
+	"name": "employee-management",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "concurrently -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"bgBlue.bold,bgGreen.bold\"  \"yarn --cwd server server \"  \"yarn run next\"",
+		"fullInit": "concurrently  \"yarn --cwd server install \"  \"yarn install\"",
+		"next": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"concurrently": "^9.0.1",
+		"daisyui": "^4.12.10",
+		"next": "14.2.13",
+		"react": "^18",
+		"react-dom": "^18"
+	},
+	"devDependencies": {
+		"eslint": "^8",
+		"eslint-config-next": "14.2.13",
+		"postcss": "^8",
+		"tailwindcss": "^3.4.1"
+	}
 }

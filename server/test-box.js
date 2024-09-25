@@ -1,20 +1,34 @@
 import connectDB from "./config/db.js";
-import User from "./models/userModel.js";
-import Blog from "./models/blogModal.js";
+import Employee from "./models/employeeModel.js";
 
 await connectDB();
 
-let user = await User.findOne({ email: "z@.c" });
+let emp = await Employee.find();
 
-const blog = new Blog({
-	title: "bad title 1.1",
-	content: "bad content 2.1",
-	author: user._id,
-});
+let female = 0,
+	male = 0;
 
-await blog.save();
-console.log(`blog id is ${blog.id}`);
-console.log(`blog:`, blog);
+for (let i = 0; i < emp.length; i++) {
+	if (emp[i].f_Gender == "female") {
+		female++;
+	} else {
+		male++;
+	}
+}
 
-const oneuser = await User.findOne();
-console.log("oneUser:", oneuser);
+console.log("emp:", emp);
+console.log("female:", female);
+console.log("male:", male);
+
+// const blog = new Blog({
+// 	title: "bad title 1.1",
+// 	content: "bad content 2.1",
+// 	author: emp._id,
+// });
+
+// await blog.save();
+// console.log(`blog id is ${blog.id}`);
+// console.log(`blog:`, blog);
+
+// const oneemp = await emp.findOne();
+// console.log("oneemp:", oneemp);
