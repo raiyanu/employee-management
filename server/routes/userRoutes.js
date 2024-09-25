@@ -12,7 +12,7 @@ import { protect } from "../middleware/authMiddleware.js";
 
 router.post("/auth", authUser);
 router.post("/", registerUser);
-router.post("/logout", protect, logoutUser);
+router.post("/logout", logoutUser);
 router
 	.route("/profile")
 	.get(protect, getUserProfile)

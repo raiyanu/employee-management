@@ -4,18 +4,17 @@ import {
 	postEmployee,
 	getEmployees,
 	getEmployee,
+	deleteEmployee,
 } from "../controllers/employeeController.js";
 const router = express.Router();
 
-router.route("/:EmployeeId").get(getEmployee);
+router.route("/:EmployeeId").get(getEmployee).delete(protect, deleteEmployee);
 router
 	.route("/")
-	.post(postEmployee)
-	// .post(protect, postEmployee)
-
+	.post(protect, postEmployee)
 	.put(protect, (req, res) => {
 		res.send("Employee route for updating");
 	});
-router.route("/page/:pageNo").get(getEmployees);
+router.route("/page/:pageNo").get(protect, getEmployees);
 
 export default router;

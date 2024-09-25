@@ -7,25 +7,31 @@ import generateToken from "../utils/generateToken.js";
 // @access Public
 const authUser = asyncHandler(async (req, res) => {
 	console.log("data:", req.body); // TODO : REMOVE THIS
-	const email = req.body.email;
+	const username = req.body.username;
 	const password = req.body.password;
-	if (!email || !password) {
+	if (!username || !password) {
 		res.status(400);
-		throw new Error("Invalid user data : Email and Password are required");
+		throw new Error("Invalid user data : username and Password are required");
 	}
 	const user = await User.findOne({
-		email,
+		username,
 	});
 	if (user && (await user.matchPassword(password))) {
 		generateToken(res, user._id);
-		res.status(200).json({
-			_id: user._id,
-			username: user.username,
-			email: user.email,
-		});
+		res
+			.status(200)
+			.cookie(
+				"user",
+				JSON.stringify({
+					_id: user._id,
+					username: user.username,
+					isLogged: true,
+				})
+			)
+			.redirect("/admin");
 	} else {
 		res.status(401);
-		throw new Error("Invalid email or password");
+		throw new Error("Invalid username or password");
 	}
 });
 
@@ -87,9 +93,11 @@ const logoutUser = asyncHandler(async (req, res) => {
 		secure: process.env.NODE_ENV === "PRODUCTION" ? true : false,
 		sameSite: "strict",
 	});
-	res.status(200).json({
-		message: "User Logged out",
+	res.cookie("user", "", {
+		expires: new Date(Date.now() + 3 * 1000),
+		sameSite: "strict",
 	});
+	res.status(200).redirect("/");
 });
 
 // @desc Logout user

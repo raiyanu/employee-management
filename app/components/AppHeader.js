@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 export default function AppHeader() {
 	return (
@@ -18,7 +19,11 @@ export default function AppHeader() {
 						<Link href={"/employees"}>Employee list </Link>
 					</li>
 					<li>
-						<Link href={"/"} className="btn btn-error btn-sm">
+						<Link
+							onClick={handleLogout}
+							href={"#"}
+							className="btn btn-error btn-sm"
+						>
 							Logout
 						</Link>
 					</li>
@@ -27,3 +32,19 @@ export default function AppHeader() {
 		</header>
 	);
 }
+
+const handleLogout = async () => {
+	try {
+		const response = await fetch("/api/users/logout", {
+			method: "POST",
+			credentials: "include", // Include cookies with the request
+		});
+
+		if (response.redirected) {
+			// Redirect if the response indicates a redirect
+			window.location.href = response.url;
+		}
+	} catch (error) {
+		console.error("Error during logout:", error);
+	}
+};

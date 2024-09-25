@@ -31,7 +31,7 @@ const postEmployee = asyncHandler((req, res, next) => {
 			return res.status(400).send({ message: validateError.message });
 		}
 
-		const { name, email, mobile, designation, gender } = req.body;
+		const { name, email, mobile, designation, gender, course } = req.body;
 		const employeeExists = await Employee.findOne({ email });
 		if (employeeExists) {
 			res.status(400);
@@ -48,6 +48,7 @@ const postEmployee = asyncHandler((req, res, next) => {
 			f_Gender: gender,
 			f_Mobile: mobile,
 			f_Designation: designation,
+			f_Course: course,
 		});
 
 		if (employee) {
@@ -63,21 +64,37 @@ const getEmployees = asyncHandler(async (req, res) => {
 	const pageSize = 10;
 	const page = Number(req.params.pageNo) || 1;
 
-	const count = await Employee.countDocuments();
+	let count = await Employee.countDocuments();
+	if (count === 0) {
+		res.status(404);
+		throw new Error("No employees found");
+	}
+	const pages =
+		Math.ceil(count - (count % pageSize)) / pageSize +
+		(count % pageSize === 0 ? 0 : 1);
 	const employees = await Employee.find()
+		// .select("-f_Image")
 		.limit(pageSize)
 		.skip(pageSize * (page - 1));
-
-	res.json({ employees, page, pages: Math.ceil(count / pageSize) });
+	console.log(
+		`Count: ${count}, Pages: ${pages}, Page: ${page}, PageSize: ${pageSize}`
+	);
+	// console.log(employees[0].f_Image);
+	res.json({
+		page,
+		pages,
+		count,
+		employees,
+	});
 });
 
 // @desc Get an employee by ID
 // route GET /api/employee/:EmployeeId
 // @access Private
 const getEmployee = asyncHandler(async (req, res) => {
-	const employee = await Employee.findById(req.params.EmployeeId);
-
+	const employee = await Employee.findOne({ f_Id: req.params.EmployeeId });
 	if (employee) {
+		console.log(employee);
 		res.json(employee);
 	} else {
 		res.status(404);
@@ -85,7 +102,23 @@ const getEmployee = asyncHandler(async (req, res) => {
 	}
 });
 
-export { postEmployee, getEmployees, getEmployee };
+// @desc Delete an employee by ID
+// route DELETE /api/employee/:EmployeeId
+// @access Private
+const deleteEmployee = asyncHandler(async (req, res) => {
+	const employee = await Employee.findOneAndDelete({
+		f_Id: req.params.EmployeeId,
+	});
+	console.log("Employee:", employee);
+	if (employee) {
+		res.status(200).json({ message: "Employee removed" });
+	} else {
+		res.status(404);
+		throw new Error("Employee not found");
+	}
+});
+
+export { postEmployee, getEmployees, getEmployee, deleteEmployee };
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
