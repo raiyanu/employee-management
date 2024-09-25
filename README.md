@@ -33,3 +33,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - POST /api/user/register
 - GET /api/user/logout
 - GET /api/user/me
+
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License. See the [LICENSE](./LICENSE) file for details.
