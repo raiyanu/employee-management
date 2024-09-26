@@ -94,7 +94,7 @@ const getEmployees = asyncHandler(async (req, res) => {
 const getEmployee = asyncHandler(async (req, res) => {
 	const employee = await Employee.findOne({ f_Id: req.params.EmployeeId });
 	if (employee) {
-		console.log(employee);
+		// console.log(employee);
 		res.json(employee);
 	} else {
 		res.status(404);
@@ -118,7 +118,57 @@ const deleteEmployee = asyncHandler(async (req, res) => {
 	}
 });
 
-export { postEmployee, getEmployees, getEmployee, deleteEmployee };
+// @desc Update an employee by ID
+// route PUT /api/employee/:EmployeeId
+// @access Private
+const putEmployee = asyncHandler((req, res, next) => {
+	upload.single("profile")(req, res, async (err) => {
+		if (err) {
+			return next(err);
+		}
+		const { EmployeeId } = req.params;
+		try {
+			const served = {
+				name: req.body.name,
+				email: req.body.email,
+				mobile: req.body.mobile,
+				designation: req.body.designation,
+				course: req.body.course,
+				gender: req.body.gender,
+			};
+			console.log("served:", served);
+			console.log("id:", EmployeeId);
+
+			const employee = await Employee.findOneAndUpdate(
+				{
+					f_Id: EmployeeId,
+				},
+				{
+					f_Name: req.body.name,
+					f_Email: req.body.email,
+					f_Mobile: req.body.mobile,
+					f_Designation: req.body.designation,
+					f_Course: req.body.course,
+					f_Gender: req.body.gender,
+					f_Image: req.file
+						? { data: req.file.buffer, contentType: req.file.mimetype }
+						: null,
+				}
+			);
+			console.log("old employee:", employee);
+			if (!employee) {
+				res.status(500);
+				throw new Error("Employee not found");
+			}
+			res.json(employee);
+		} catch (error) {
+			console.error("Error updating employee:", error);
+			res.status(500);
+		}
+	});
+});
+
+export { postEmployee, getEmployees, getEmployee, deleteEmployee, putEmployee };
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });

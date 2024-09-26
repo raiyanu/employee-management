@@ -17,7 +17,7 @@ const authUser = asyncHandler(async (req, res) => {
 		username,
 	});
 	if (user && (await user.matchPassword(password))) {
-		generateToken(res, user._id);
+		let token = generateToken(res, user._id);
 		res
 			.status(200)
 			.cookie(

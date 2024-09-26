@@ -1,14 +1,68 @@
+"use client";
 import AppHeader from "../../../components/AppHeader";
 import axios from "axios";
 import { useParams } from "next/navigation";
-export default function Home({ employee }) {
+import { useEffect, useState } from "react";
+export default function Home() {
+	const [employee, setEmployee] = useState({});
+	const { id } = useParams();
+	const fetchEmployee = async (id) => {
+		try {
+			const response = await axios.get(`/api/employee/${id}`);
+			if (response.status === 200 && response.data) {
+				setEmployee(response.data);
+				console.log("Employee:", response.data);
+			} else {
+				throw new Error("Invalid response");
+			}
+		} catch (error) {
+			console.error("Error fetching employees:", error);
+			if (error.response.status === 401) {
+				alert("Unauthorized access. Redirecting to login page.");
+				router.push("/");
+			}
+		}
+	};
+	useEffect(() => {
+		fetchEmployee(id);
+	}, []);
 	return (
 		<>
 			<AppHeader />
 			<form
-				action="/api/employee/"
+				action={`/api/employee/${id}`}
 				className="*:max-w-sm *:max-lg:mx-auto *:max-lg:mt-3 lg:grid lg:grid-cols-2 border-2 max-w-2xl gap-y-2 gap-x-4 mx-auto p-4 rounded-lg "
-				method="PUT"
+				onSubmit={async (e) => {
+					e.preventDefault(); // Prevent default form submission
+					try {
+						const formData = new FormData(e.target);
+						const response = await axios.put(`/api/employee/${id}`, formData);
+						console.log("Response:", response);
+						if (response.status === 200) {
+							alert("Employee updated successfully");
+							fetchEmployee(id);
+						} else {
+							alert(
+								"Error updating employee:" +
+									response.data.problem +
+									"\n" +
+									Array.from(response.data.keyPattern)[0]
+							);
+						}
+					} catch (error) {
+						alert(
+							"Error updating employee:" +
+								error.data.problem +
+								"\n" +
+								Array.from(error.data.keyPattern)[0]
+						);
+						console.error("Error updating employee:", error);
+						if (error.response.status === 401) {
+							alert("Unauthorized access. Redirecting to login page.");
+							router.push("/");
+						}
+					}
+				}}
 				encType="multipart/form-data"
 			>
 				<label className="input input-bordered flex items-center gap-2">
@@ -18,7 +72,7 @@ export default function Home({ employee }) {
 						className="grow"
 						placeholder="id"
 						name="f_Id"
-						value={employee.f_Id}
+						defaultValue={employee.f_Id}
 						disabled
 					/>
 				</label>
@@ -29,7 +83,7 @@ export default function Home({ employee }) {
 						className="grow"
 						placeholder="Name"
 						name="name"
-						value={employee.f_Name}
+						defaultValue={employee.f_Name}
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -39,6 +93,7 @@ export default function Home({ employee }) {
 						className="grow"
 						placeholder="Email"
 						name="email"
+						defaultValue={employee.f_Email}
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -48,6 +103,7 @@ export default function Home({ employee }) {
 						className="grow"
 						placeholder="Mobile"
 						name="mobile"
+						defaultValue={employee.f_Mobile}
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -57,6 +113,7 @@ export default function Home({ employee }) {
 						className="grow"
 						placeholder="Designation"
 						name="designation"
+						defaultValue={employee.f_Designation}
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -78,6 +135,7 @@ export default function Home({ employee }) {
 						className="grow"
 						placeholder="Course"
 						name="course"
+						defaultValue={employee.f_Course}
 					/>
 				</label>
 				<label className="input input-bordered flex items-center gap-2">
@@ -99,26 +157,3 @@ export default function Home({ employee }) {
 		</>
 	);
 }
-export const getServerSideProps = async () => {
-	const { id } = useParams();
-	let employee;
-	const fetchEmployee = async (id) => {
-		try {
-			const response = await axios.get(`/api/employee/${id}`);
-			if (response.status === 200 && response.data) {
-				employee = response.data;
-				console.log("Employee:", response.data);
-			} else {
-				throw new Error("Invalid response");
-			}
-		} catch (error) {
-			console.error("Error fetching employees:", error);
-			if (error.response.status === 401) {
-				alert("Unauthorized access. Redirecting to login page.");
-				router.push("/");
-			}
-		}
-	};
-	fetchEmployee(id);
-	return { props: { employee } };
-};

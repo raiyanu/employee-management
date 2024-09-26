@@ -5,10 +5,15 @@ import {
 	getEmployees,
 	getEmployee,
 	deleteEmployee,
+	putEmployee,
 } from "../controllers/employeeController.js";
 const router = express.Router();
 
-router.route("/:EmployeeId").get(getEmployee).delete(protect, deleteEmployee);
+router
+	.route("/:EmployeeId")
+	.get(getEmployee)
+	.delete(protect, deleteEmployee)
+	.put(protect, putEmployee);
 router
 	.route("/")
 	.post(protect, postEmployee)
