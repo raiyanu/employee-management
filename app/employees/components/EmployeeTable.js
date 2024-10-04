@@ -13,24 +13,42 @@ export default function EmployeeTable({ meta, employees }) {
 		let endPage = Math.min(totalPage, current + 2);
 
 		if (current <= 3) {
-			endPage = Math.min(totalPage, 5);
+			endPage = Math.min(totalPage, 6);
 		} else if (current >= totalPage - 2) {
-			startPage = Math.max(1, totalPage - 4);
+			startPage = Math.max(1, totalPage - 6);
 		}
-
+		buttons.push(
+			<Link
+				key={"<<"}
+				className={`join-item btn btn-sm ${1 === current ? "hidden" : ""
+					}`}
+				href={`/employees/${1}`}
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5" /><path d="m18 17-5-5 5-5" /></svg>
+			</Link>
+		);
 		for (let i = startPage; i <= endPage; i++) {
 			buttons.push(
 				<Link
 					key={i}
-					className={`join-item btn btn-sm ${
-						i === current ? "btn-active" : ""
-					}`}
+					className={`join-item btn btn-sm ${i === current ? "btn-active" : ""
+						}`}
 					href={`/employees/${i}`}
 				>
 					{i}
 				</Link>
 			);
 		}
+		buttons.push(
+			<Link
+				key={">>"}
+				className={`join-item btn btn-sm ${totalPage === current ? "hidden" : ""
+					}`}
+				href={`/employees/${totalPage}`}
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-right"><path d="m6 17 5-5-5-5" /><path d="m13 17 5-5-5-5" /></svg>
+			</Link>
+		);
 		return buttons;
 	};
 
@@ -50,6 +68,7 @@ export default function EmployeeTable({ meta, employees }) {
 								<th>Designation</th>
 								<th>Gender</th>
 								<th>Course</th>
+								<th>Address</th>
 								<th>Created date</th>
 								<th>Action</th>
 							</tr>
@@ -97,7 +116,7 @@ export function EmployeeTuple({ employee, router }) {
 		router.push(`/employees/edit/${f_Id}`);
 	}
 	return (
-		<tr>
+		<tr className="hover:bg-secondary-content" >
 			<td> {employee.f_Id} </td>
 			<td>
 				<div className="flex items-center gap-3">
@@ -118,6 +137,8 @@ export function EmployeeTuple({ employee, router }) {
 			<td>{employee.f_Designation}</td>
 			<td>{employee.f_Gender}</td>
 			<td>{employee.f_Course}</td>
+			<td>{employee.f_Address}</td>
+
 			<td>{new Date(employee.f_Createdate).toLocaleString()}</td>
 			<td>
 				<div className="flex gap-2">

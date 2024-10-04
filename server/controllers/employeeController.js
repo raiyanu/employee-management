@@ -31,7 +31,7 @@ const postEmployee = asyncHandler((req, res, next) => {
 			return res.status(400).send({ message: validateError.message });
 		}
 
-		const { name, email, mobile, designation, gender, course } = req.body;
+		const { name, email, mobile, designation, gender, course, address } = req.body;
 		const employeeExists = await Employee.findOne({ email });
 		if (employeeExists) {
 			res.status(400);
@@ -49,6 +49,7 @@ const postEmployee = asyncHandler((req, res, next) => {
 			f_Mobile: mobile,
 			f_Designation: designation,
 			f_Course: course,
+			f_Address: address,
 		});
 
 		if (employee) {
@@ -153,6 +154,7 @@ const putEmployee = asyncHandler((req, res, next) => {
 					f_Image: req.file
 						? { data: req.file.buffer, contentType: req.file.mimetype }
 						: null,
+					f_Address: req.body.address,
 				}
 			);
 			console.log("old employee:", employee);

@@ -34,7 +34,8 @@ const employeeSchema = new mongoose.Schema({
 		required: true,
 		enum: ["male", "female"],
 	},
-	f_Course: {
+	f_Course: String,
+	f_Address: {
 		type: String,
 		required: false,
 	},
