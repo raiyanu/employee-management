@@ -8,6 +8,7 @@
 	"scripts": {
 		"server": "nodemon --env-file .env index.js",
 		"start": "node --env-file .env index.js",
+		"deploy": "node index.js",
 		"test": "node --env-file .env test-box.js"
 	},
 	"dependencies": {

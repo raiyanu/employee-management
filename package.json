@@ -4,7 +4,8 @@
 	"private": true,
 	"scripts": {
 		"dev": "concurrently -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"bgBlue.bold,bgGreen.bold\"  \"yarn --cwd server server \"  \"yarn run next\"",
-		"fullInit": "concurrently  \"yarn --cwd server install \"  \"yarn install\"",
+		"deploy": "concurrently -p \"[{name}]\" -n \"SERVER,CLIENT\" -c \"bgBlue.bold,bgGreen.bold\"  \"yarn --cwd server deploy \"  \"yarn run start\"",
+		"fullInit": " yarn --cwd server install ; yarn install",
 		"next": "next dev",
 		"build": "next build",
 		"start": "next start",
