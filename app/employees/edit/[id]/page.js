@@ -1,4 +1,5 @@
 "use client";
+import BreadCrumbs from "@/app/components/BreadCrumbs";
 import AppHeader from "../../../components/AppHeader";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -56,6 +57,13 @@ export default function Home() {
 	return (
 		<>
 			<AppHeader />
+			<BreadCrumbs
+				paths={[
+					{ name: "Home", href: "/", active: true },
+					{ name: "Employee List", href: "/employees" },
+					{ name: "Edit", href: `/edit/${id}` },
+				]}
+			/>
 			<dialog id="formInvalidPopUp" className="modal">
 				<div className="modal-box">
 					<h3 className="font-bold text-lg">Please fullfil required</h3>

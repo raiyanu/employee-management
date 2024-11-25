@@ -7,6 +7,7 @@ import {
 	deleteEmployee,
 	putEmployee,
 } from "../controllers/employeeController.js";
+import getEmployeeInfo from "../controllers/getEmployeeInfoController.js"
 const router = express.Router();
 
 router
@@ -14,6 +15,9 @@ router
 	.get(getEmployee)
 	.delete(protect, deleteEmployee)
 	.put(protect, putEmployee);
+router
+	.route("/info")
+	.get(getEmployeeInfo)
 router
 	.route("/")
 	.post(protect, postEmployee)

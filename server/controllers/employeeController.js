@@ -73,13 +73,14 @@ const getEmployees = asyncHandler(async (req, res) => {
 	const pages =
 		Math.ceil(count - (count % pageSize)) / pageSize +
 		(count % pageSize === 0 ? 0 : 1);
-	const employees = await Employee.find()
+	const employees = await Employee.find().sort({ f_Id: 1 })
 		// .select("-f_Image")
 		.limit(pageSize)
 		.skip(pageSize * (page - 1));
 	console.log(
 		`Count: ${count}, Pages: ${pages}, Page: ${page}, PageSize: ${pageSize}`
 	);
+	employees.sort((a, b) => a.f_Id - b.f_Id);
 	// console.log(employees[0].f_Image);
 	res.json({
 		page,

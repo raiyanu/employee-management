@@ -24,7 +24,7 @@ export default function EmployeeTable({ meta, employees }) {
 					}`}
 				href={`/employees/${1}`}
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5" /><path d="m18 17-5-5 5-5" /></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevrons-left"><path d="m11 17-5-5 5-5" /><path d="m18 17-5-5 5-5" /></svg>
 			</Link>
 		);
 		for (let i = startPage; i <= endPage; i++) {
@@ -46,7 +46,7 @@ export default function EmployeeTable({ meta, employees }) {
 					}`}
 				href={`/employees/${totalPage}`}
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevrons-right"><path d="m6 17 5-5-5-5" /><path d="m13 17 5-5-5-5" /></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevrons-right"><path d="m6 17 5-5-5-5" /><path d="m13 17 5-5-5-5" /></svg>
 			</Link>
 		);
 		return buttons;
@@ -59,7 +59,7 @@ export default function EmployeeTable({ meta, employees }) {
 					<table className="table">
 						{/* head */}
 						<thead>
-							<tr className="*:cursor-pointer">
+							<tr className="*:cursor-pointer *:font-bold group-hover:font-black">
 								<th>UUID</th>
 								<th>Image</th>
 								<th>Name</th>
@@ -94,7 +94,8 @@ export default function EmployeeTable({ meta, employees }) {
 					</div>
 				</>
 			) : (
-				<p className="text-center py-6 font-extrabold text-5xl">Loading...</p>
+				<span className="loading loading-bars loading-lg block mx-auto mt-8"></span>
+				// <p className="text-center py-6 font-extrabold text-5xl">Loading...</p>
 			)}
 		</div>
 	);
@@ -116,7 +117,7 @@ export function EmployeeTuple({ employee, router }) {
 		router.push(`/employees/edit/${f_Id}`);
 	}
 	return (
-		<tr className="hover:bg-secondary-content" >
+		<tr className="hover:bg-[rgba(0,0,0,.075)]  transition-colors" >
 			<td> {employee.f_Id} </td>
 			<td>
 				<div className="flex items-center gap-3">

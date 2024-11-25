@@ -8,6 +8,7 @@ import ImageProvider from "./ImageProvider";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import EmployeeTable from "./components/EmployeeTable";
+import BreadCrumbs from "../components/BreadCrumbs";
 
 export default function Home({ pageNo }) {
 	const router = useRouter();
@@ -43,6 +44,12 @@ export default function Home({ pageNo }) {
 	return (
 		<div>
 			<AppHeader />
+			<BreadCrumbs
+				paths={[
+					{ name: "Home", href: "/" },
+					{ name: "Employee List", href: "/employees" },
+				]}
+			/>
 			<EmployeeTable employees={employees} meta={meta} />
 		</div>
 	);

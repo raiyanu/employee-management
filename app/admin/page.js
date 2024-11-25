@@ -1,9 +1,16 @@
 import AppHeader from "../components/AppHeader";
+import BreadCrumbs from "../components/BreadCrumbs";
+import Hero from "../components/Hero";
 export default function Home() {
 	return (
 		<>
 			<AppHeader />
-			<h1>Welcome Admin Panel</h1>
+			<BreadCrumbs
+				paths={[
+					{ name: "Home", href: "/", active: true },
+				]}
+			/>
+			<Hero />
 		</>
 	);
 }

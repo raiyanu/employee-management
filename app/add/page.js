@@ -1,6 +1,7 @@
 "use client";
 import AppHeader from "../components/AppHeader";
 import { useState } from "react";
+import BreadCrumbs from "../components/BreadCrumbs";
 
 export default function Home() {
 	const [errors, setErrors] = useState([]);
@@ -33,6 +34,13 @@ export default function Home() {
 	return (
 		<>
 			<AppHeader />
+			<BreadCrumbs
+				paths={[
+					{ name: "Home", href: "/", active: true },
+					{ name: "Employee List", href: "/employees" },
+					{ name: "Add", href: "/add" },
+				]}
+			/>
 			<dialog id="formInvalidPopUp" className="modal">
 				<div className="modal-box">
 					<h3 className="font-bold text-lg">Please fullfil required</h3>
