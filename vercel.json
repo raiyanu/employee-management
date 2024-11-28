@@ -2,8 +2,7 @@
 	"rewrites": [
 		{
 			"source": "/api/:path*",
-			"destination": "https://employee-management-tt7o.onrender.com/api/:path*",
-			"permanent": true
+			"destination": "https://employee-management-tt7o.onrender.com/api/:path*"
 		}
 	]
 }
