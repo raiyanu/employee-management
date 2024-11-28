@@ -13,7 +13,7 @@ app.use((req, res, next) => {
 	next();
 });
 const corsOptions = {
-	origin: "https://syntaxia-one.vercel.app",
+	origin: process.env.CLIENT_URL,
 	credentials: true,
 };
 

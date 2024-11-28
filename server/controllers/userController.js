@@ -28,7 +28,7 @@ const authUser = asyncHandler(async (req, res) => {
 					isLogged: true,
 				})
 			)
-			.redirect("https://employee-management-kappa-blue.vercel.app//admin");
+			.redirect(process.env.CLIENT_URL + "/admin");
 	} else {
 		res.status(401);
 		throw new Error("Invalid username or password");
@@ -97,7 +97,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 		expires: new Date(Date.now() + 3 * 1000),
 		sameSite: "strict",
 	});
-	res.status(200).redirect("https://employee-management-kappa-blue.vercel.app/");
+	res.status(200).redirect(process.env.CLIENT_URL ?? +"/");
 });
 
 // @desc Logout user
