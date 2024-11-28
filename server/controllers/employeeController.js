@@ -53,7 +53,7 @@ const postEmployee = asyncHandler((req, res, next) => {
 		});
 
 		if (employee) {
-			res.status(201).redirect("/employees");
+			res.status(201).redirect("https://employee-management-kappa-blue.vercel.app//employees");
 		}
 	});
 });
