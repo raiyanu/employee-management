@@ -4,7 +4,7 @@ const nextConfig = {
 		return [
 			{
 				source: "/api/:path*",
-				destination: "http://localhost:5959/api/:path*",
+				destination: "https://employee-management-tt7o.onrender.com/api/:path*",
 			},
 		];
 	},
