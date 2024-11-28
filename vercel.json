@@ -4,7 +4,6 @@
 			"source": "/api/:path*",
 			"destination": "https://employee-management-tt7o.onrender.com/api/:path*",
 			"permanent": true
-		},
-		{ "source": "/(.*)", "destination": "/" }
+		}
 	]
 }
