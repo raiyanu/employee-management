@@ -2,7 +2,7 @@
 	"redirects": [
 		{
 			"source": "/api/:path*",
-			"destination": "https://employee-management-tt7o.onrender.com/api/:path*",
+			"destination": "https://localhost:5959/:path*",
 			"permanent": true
 		}
 	],
