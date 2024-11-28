@@ -4,7 +4,7 @@ import userRoutes from "./routes/userRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import connectDB from "./config/db.js";
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.SERVER_PORT || 5000;
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
